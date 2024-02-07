@@ -1,5 +1,120 @@
 # Ayesha's Data Analysis Portfolio
 
+## Time Series Forecasting with Attention Mechanisms using NFLX data
+
+```
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import MinMaxScaler
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import LSTM, Dense
+from tensorflow.keras.optimizers import Adam
+from attention import Attention  # Assuming the Attention layer is implemented in a separate file
+
+# Load the dataset
+data = pd.read_csv('NFLX.csv')
+
+# Convert 'Date' column to datetime
+data['Date'] = pd.to_datetime(data['Date'])
+
+# Set 'Date' column as index
+data.set_index('Date', inplace=True)
+
+# Sort the index
+data.sort_index(inplace=True)
+
+# Display the first few rows of the dataset
+print(data.head())
+
+# Check for missing values
+print(data.isnull().sum())
+
+# Plot the closing price of Netflix stock
+plt.figure(figsize=(12, 6))
+plt.plot(data['Close'], label='Close Price')
+plt.title('Netflix Stock Closing Price')
+plt.xlabel('Date')
+plt.ylabel('Close Price (USD)')
+plt.legend()
+plt.show()
+
+# Extract 'Close' prices for normalization
+close_price = data[['Close']].values
+
+# Normalize the data
+scaler = MinMaxScaler(feature_range=(0, 1))
+close_price_scaled = scaler.fit_transform(close_price)
+
+# Define the number of timesteps for LSTM
+timesteps = 30
+
+# Prepare the data for LSTM
+X, y = [], []
+for i in range(timesteps, len(close_price_scaled)):
+    X.append(close_price_scaled[i - timesteps:i, 0])
+    y.append(close_price_scaled[i, 0])
+X, y = np.array(X), np.array(y)
+
+# Reshape the data for LSTM input
+X = np.reshape(X, (X.shape[0], X.shape[1], 1))
+
+# Build the LSTM model with attention mechanism
+model = Sequential([
+    LSTM(units=50, return_sequences=True, input_shape=(X.shape[1], 1)),
+    Attention(),
+    Dense(units=1)
+])
+
+# Compile the model
+model.compile(optimizer=Adam(learning_rate=0.001), loss='mean_squared_error')
+
+# Train the model
+model.fit(X, y, epochs=50, batch_size=32)
+
+# Predict the closing prices
+predictions = model.predict(X)
+
+# Inverse transform the predictions
+predictions = scaler.inverse_transform(predictions)
+
+# Plot the actual and predicted closing prices
+plt.figure(figsize=(12, 6))
+plt.plot(data.index[timesteps:], data['Close'][timesteps:], label='Actual Close Price', color='blue')
+plt.plot(data.index[timesteps:], predictions, label='Predicted Close Price', color='red')
+plt.title('Netflix Stock Actual vs Predicted Closing Prices')
+plt.xlabel('Date')
+plt.ylabel('Close Price (USD)')
+plt.legend()
+plt.show()
+```
+  Open        High         Low       Close   Adj Close  \
+Date                                                                     
+2023-02-01  353.859985  365.390015  349.910004  361.989990  361.989990   
+2023-02-02  365.160004  368.320007  358.429993  366.890015  366.890015   
+2023-02-03  359.079987  379.429993  359.000000  365.899994  365.899994   
+2023-02-06  363.640015  368.450012  360.679993  361.480011  361.480011   
+2023-02-07  358.510010  364.179993  354.179993  362.950012  362.950012   
+
+             Volume  
+Date                 
+2023-02-01  8005200  
+2023-02-02  7857000  
+2023-02-03  9402000  
+2023-02-06  4994900  
+2023-02-07  6289400  
+Open         0
+High         0
+Low          0
+Close        0
+Adj Close    0
+Volume       0
+dtype: int64
+
+<img width="281" alt="NFLX close price" src="https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/120aad9f-5a55-4672-af38-b4d01f6e05c9">
+
+<img width="268" alt="NFLX predicted close price" src="https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/22f166a2-2be1-4317-8df5-e1d913d7222e">
+
 ## Portfolio Analysis
 
 In this Analysis, I focused on collecting and analyzing data for a Canadian investor's portfolio, comprising a riskless asset (T-bill ETF) and a risky asset (S&P500 stock). Historical data was gathered for the Canadian T-bill ETF and S&P500 stock index from May 19, 2000, to June 6, 2018. Additionally, CAD/USD exchange rates were utilized to convert S&P500 returns to CAD.
