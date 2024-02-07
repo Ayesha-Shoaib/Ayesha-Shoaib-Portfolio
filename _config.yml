@@ -1,11 +1,14 @@
 title: Ayesha Shoaib
+skills: 
+- R
+- Python
+- PySpark
+- TensorFlow
+- Workbench
+- SAS
+- Stata
+- Microsoft Power BI
+- Tableau
 theme: jekyll-theme-minimal
 
-# Navigation Links
-navbar-links:
-- title: Home
-   url: /
-- title: About
-  url: /about
-- title: Skills
-   url: /skills
+
