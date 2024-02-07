@@ -1,2 +1,11 @@
 title: Ayesha Shoaib
 theme: jekyll-theme-minimal
+
+# Navigation Links
+navbar-links:
+- title: Home
+   url: /
+- title: About
+  url: /about
+- title: Skills
+   url: /skills
