@@ -1,14 +1,14 @@
 title: Ayesha Shoaib
-skills: 
-- R
-- Python
-- PySpark
-- TensorFlow
-- Workbench
-- SAS
-- Stata
-- Microsoft Power BI
-- Tableau
+logo: "C:\Users\hanna\Desktop\ayesha image 2.jpg"
+skills: - R
+        - Python
+        - PySpark
+        - TensorFlow
+        - Workbench
+        - SAS
+        - Stata
+        - Microsoft Power BI
+        - Tableau
 theme: jekyll-theme-minimal
 
 
