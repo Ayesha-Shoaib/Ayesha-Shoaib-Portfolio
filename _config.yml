@@ -1,5 +1,5 @@
 title: Ayesha Shoaib
-avatar: "https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/blob/main/ayesha%20image%202.jpg"
+avatar: "https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/raw/main/ayesha%20image%202.jpg"
 skills:
   - R
   - Python
@@ -11,6 +11,3 @@ skills:
   - Microsoft Power BI
   - Tableau
 theme: jekyll-theme-minimal
-
-
-
