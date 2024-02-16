@@ -115,6 +115,101 @@ dtype: int64
 
 <img width="268" alt="NFLX predicted close price" src="https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/22f166a2-2be1-4317-8df5-e1d913d7222e">
 
+## Rise and Fall of Programming Languages using R
+```
+# Load libraries
+library(readr)
+library(dplyr)
+
+# Load dataset
+by_tag_year <- read_csv("datasets/by_tag_year.csv")
+print(by_tag_year)
+
+# Add fraction column
+by_tag_year_fraction <- mutate(by_tag_year, fraction = number/year_total)
+
+# Print the new table
+print(by_tag_year_fraction)
+
+# Filter for R tags
+r_over_time <- filter(by_tag_year_fraction, tag == 'r')
+
+# Print the new table
+print(r_over_time)
+
+# Load ggplot2
+library(ggplot2)
+
+# Create a line plot of fraction over time
+ggplot(r_over_time, aes(x = year, y = fraction)) +
+  geom_line() +
+  labs(
+    title = "Fraction over Time",
+    x = "Year",
+    y = "Fraction"
+  )
+
+# A vector of selected tags
+selected_tags <- c('r', 'ggplot2', 'dplyr')
+
+# Filter for those tags
+selected_tags_over_time <- filter(by_tag_year_fraction, tag %in% selected_tags)
+
+# Plot tags over time on a line plot using color to represent tag
+ggplot(selected_tags_over_time, aes(x = year, y = fraction, color = tag)) +
+  geom_line() +
+  labs(
+    title = "Popularity of R, dplyr, and ggplot2 Over Time",
+    x = "Year",
+    y = "Fraction of Overall Questions"
+  )
+
+# Find total number of questions for each tag
+tag_total <- by_tag_year %>%
+  group_by(tag) %>%
+  summarize(tag_total = sum(number))
+
+sorted_tags <- tag_total %>%
+  arrange(desc(tag_total))
+
+# Print the new table
+print(sorted_tags)
+
+# Get the six largest tags
+highest_tags <- head(sorted_tags$tag)
+
+# Filter for the six largest tags
+by_tag_subset <- by_tag_year_fraction %>%
+  filter(tag %in% highest_tags)
+
+# Plot tags over time on a line plot using color to represent tag
+ggplot(by_tag_subset, aes(x = year, y = fraction, color = tag)) +
+  geom_line() +
+  labs(
+    title = "Fraction of Questions Over Time for Top Tags",
+    x = "Year",
+    y = "Fraction of Questions"
+  )
+
+# Get tags of interest
+my_tags <- c("android", "ios", "windows-phone")
+
+# Filter for those tags
+by_tag_subset <- by_tag_year_fraction %>%
+  filter(tag %in% my_tags)
+
+
+# Plot tags over time on a line plot using color to represent tag
+ggplot(by_tag_subset, aes(x = year, y = fraction, color = tag)) +
+  geom_line() +
+  labs(
+    title = "Popularity of Android, iOS, and Windows Phone Over Time",
+    x = "Year",
+    y = "Fraction of Questions"
+  )
+
+```
+
 ## Portfolio Analysis
 
 In this Analysis, I focused on collecting and analyzing data for a Canadian investor's portfolio, comprising a riskless asset (T-bill ETF) and a risky asset (S&P500 stock). Historical data was gathered for the Canadian T-bill ETF and S&P500 stock index from May 19, 2000, to June 6, 2018. Additionally, CAD/USD exchange rates were utilized to convert S&P500 returns to CAD.
