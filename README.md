@@ -209,6 +209,11 @@ ggplot(by_tag_subset, aes(x = year, y = fraction, color = tag)) +
   )
 
 ```
+![image](https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/7e354668-f1c8-4e6e-b6ae-fd46f25ac552)
+![image](https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/5e5efaba-f2e1-40ee-9719-86b67aad4d3e)
+![image](https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/1767b240-77c2-4161-955d-4e3e5ca48d98)
+![image](https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/04facfeb-0624-44dd-8dc7-537462037918)
+
 
 ## Portfolio Analysis
 
