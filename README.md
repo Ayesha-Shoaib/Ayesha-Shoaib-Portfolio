@@ -1,5 +1,84 @@
 # Ayesha's Data Analysis Portfolio
 
+## Social Media Stress Analytics Pipeline
+
+Our objective is to build an advanced ETL pipeline to extract, transform, and load social media data from Reddit communities for stress analytics. Implement machine learning models for stress prediction and deploy the pipeline on a cloud platform for scalability.
+
+### Tools and Technologies:
+Python
+Pandas (for data manipulation)
+SQLAlchemy (for database interaction)
+Scikit-learn (for machine learning)
+Jupyter Notebook (for development and documentation)
+PostgreSQL or MySQL (for a more robust database)
+Docker (for containerization)
+Google Cloud Platform or Amazon Web Services (for cloud deployment)
+Enhanced Steps:
+
+We will utilize Pandas to read the provided dataset into a data frame. Then, explore the dataset to understand its structure and contents.
+
+To transform the data, we will perform advanced text preprocessing techniques such as tokenization, stemming, and lemmatization on the text data to prepare it for analysis. Then, extract additional features from text data using natural language processing (NLP) techniques, such as sentiment analysis, topic modeling, or named entity recognition.
+We will make sure to encode categorical variables and scale numerical features for machine-learning model compatibility. Next would be to split the data into training and testing sets for model training and evaluation.
+
+```
+import pandas as pd
+from sqlalchemy import create_engine
+
+data = pd.read_csv('dreaddit-test.csv')
+
+data.drop_duplicates(inplace=True)
+# Convert 'social_timestamp' to datetime
+data['social_timestamp'] = pd.to_datetime(data['social_timestamp'])
+
+engine = create_engine('sqlite:///social_media_stress.db')
+data.to_sql('social_media_data', engine, index=False, if_exists='replace')
+
+import matplotlib.pyplot as plt
+
+subreddit_stress_counts = data.groupby('subreddit')['label'].value_counts().unstack().fillna(0)
+subreddit_stress_counts.plot(kind='bar', stacked=True)
+plt.title('Stress Levels by Subreddit')
+plt.xlabel('Subreddit')
+plt.ylabel('Number of Posts')
+plt.legend(title='Stress Level')
+plt.show()
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.pipeline import Pipeline
+
+# Separate numeric and categorical columns
+numeric_cols = X.select_dtypes(include=['number']).columns
+categorical_cols = X.select_dtypes(include=['object']).columns
+
+numeric_transformer = Pipeline(steps=[
+    ('scaler', StandardScaler())])
+
+categorical_transformer = Pipeline(steps=[
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))])
+
+# Combine preprocessing steps
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_cols),
+        ('cat', categorical_transformer, categorical_cols)])
+
+# Define pipeline with preprocessing and model training
+pipeline = Pipeline(steps=[('preprocessor', preprocessor),
+                           ('classifier', LogisticRegression())])
+
+pipeline.fit(X_train, y_train)
+
+# Evaluate model performance
+accuracy = pipeline.score(X_test, y_test)
+print("Accuracy:", accuracy)
+
+```
+Accuracy: 0.6993006993006993
+<img width="278" alt="Stress levels" src="https://github.com/Ayesha-Shoaib/Ayesha-Shoaib-Portfolio/assets/158636211/1ebc637a-b147-4899-8904-de8a61505045">
+
+
+
 ## Time Series Forecasting with Attention Mechanisms using NFLX data
 
 ```
